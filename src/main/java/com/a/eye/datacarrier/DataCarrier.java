@@ -2,6 +2,8 @@ package com.a.eye.datacarrier;
 
 import com.a.eye.datacarrier.buffer.BufferStrategy;
 import com.a.eye.datacarrier.buffer.Channels;
+import com.a.eye.datacarrier.consumer.ConsumerPool;
+import com.a.eye.datacarrier.consumer.IConsumer;
 import com.a.eye.datacarrier.partition.IDataPartitioner;
 import com.a.eye.datacarrier.partition.SimpleRollingPartitioner;
 
@@ -12,9 +14,10 @@ import com.a.eye.datacarrier.partition.SimpleRollingPartitioner;
  * Created by wusheng on 2016/10/25.
  */
 public class DataCarrier<T> {
-    private final int         bufferSize;
-    private final int         channelSize;
-    private       Channels<T> channels;
+    private final int             bufferSize;
+    private final int             channelSize;
+    private       Channels<T>     channels;
+    private       ConsumerPool<T> consumerPool;
 
     public DataCarrier(int channelSize, int bufferSize) {
         this.bufferSize = bufferSize;
@@ -36,20 +39,41 @@ public class DataCarrier<T> {
 
     /**
      * override the strategy at runtime.
-     * Notice, {@Link com.a.eye.datacarrier.buffer.Channels<T>} will override several channels one by one.
+     * Notice, {@link com.a.eye.datacarrier.buffer.Channels<T>} will override several channels one by one.
      *
      * @param strategy
      */
-    public void setBufferStrategy(BufferStrategy strategy){
+    public DataCarrier setBufferStrategy(BufferStrategy strategy) {
         this.channels.setStrategy(strategy);
+        return this;
     }
 
     /**
      * produce data to buffer, using the givven {@Link BufferStrategy}.
+     *
      * @param data
      * @return
      */
     public boolean produce(T data) {
+        if (consumerPool != null) {
+            consumerPool.begin();
+        }
         return this.channels.save(data);
+    }
+
+    /**
+     * set consumers to this Carrier.
+     * consumer begin to run when {@link DataCarrier<T>#produce(T)} begin to work.
+     *
+     * @param prototype
+     * @param num                number of consumers, which consumer will run as a independent thread
+     * @param usePrototypeCopies use new instance of prototype for consumer, it will work only when prototype class have default constructor
+     */
+    public DataCarrier consume(IConsumer<T> prototype, int num, boolean usePrototypeCopies) {
+        if (consumerPool != null) {
+            consumerPool.close();
+        }
+        consumerPool = new ConsumerPool<T>(this.channels, prototype, num, usePrototypeCopies);
+        return this;
     }
 }

@@ -41,4 +41,17 @@ public class Channels<T> {
             buffer.setStrategy(strategy);
         }
     }
+
+    /**
+     * get channelSize
+     *
+     * @return
+     */
+    public int getChannelSize(){
+        return this.bufferChannels.length;
+    }
+
+    public Buffer<T> getBuffer(int index){
+        return this.bufferChannels[index];
+    }
 }

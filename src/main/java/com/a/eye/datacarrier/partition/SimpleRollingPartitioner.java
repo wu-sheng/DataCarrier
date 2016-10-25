@@ -11,6 +11,6 @@ public class SimpleRollingPartitioner <T> implements IDataPartitioner<T> {
 
     @Override
     public int partition(int total, T data) {
-        return Math.abs(i++ / total);
+        return Math.abs(i++ % total);
     }
 }

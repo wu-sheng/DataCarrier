@@ -2,10 +2,13 @@ package com.a.eye.datacarrier.buffer;
 
 import com.a.eye.datacarrier.common.AtomicRangeInteger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by wusheng on 2016/10/25.
  */
-class Buffer<T> {
+public class Buffer<T> {
     private final Object[]           buffer;
     private       BufferStrategy     strategy;
     private       AtomicRangeInteger index;
@@ -41,6 +44,21 @@ class Buffer<T> {
         }
         buffer[i] = data;
         return true;
+    }
+
+    public int getBufferSize() {
+        return buffer.length;
+    }
+
+    public List<T> obtain(int start, int end) {
+        List<T> result = new ArrayList<T>(end - start);
+        for (int i = start; i < end; i++) {
+            if(buffer[i] != null){
+                result.add((T)buffer[i]);
+                buffer[i] = null;
+            }
+        }
+        return result;
     }
 
 }
