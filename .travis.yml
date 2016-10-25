@@ -3,4 +3,4 @@ script:
   - mvn clean install
 
 after_success:
-  - coveralls
+  - mvn clean coveralls:report
