@@ -1,6 +1,11 @@
 # DataCarrier
-DataCarrier is a light and high efficient code lib for Producer/Consumer Model with buffer.
-
-It's used in [Sky-Walking APM](https://github.com/wu-sheng/sky-walking) project in order to process data fast.
+DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 
 [![Build Status](https://travis-ci.org/wu-sheng/DataCarrier.svg?branch=master)](https://travis-ci.org/wu-sheng/DataCarrier)
+
+## Why need DataCarrier
+- Publish-Subscribe MQ. Support multi Producers and Consumer.
+- Light and Embed. A mini java lib in jdk1.6.
+- High-throughput. Used in [Sky-Walking APM](https://github.com/wu-sheng/sky-walking),
+- Easy to use. Simple API.
+
