@@ -2,7 +2,7 @@
 DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 
 [![Build Status](https://travis-ci.org/wu-sheng/DataCarrier.svg?branch=master)](https://travis-ci.org/wu-sheng/DataCarrier)
-[![Coverage Status](https://coveralls.io/repos/github/wu-sheng/DataCarrier/badge.svg?branch=master&q=1)](https://coveralls.io/github/wu-sheng/DataCarrier?branch=master&q=1)
+[![Coverage Status](https://coveralls.io/repos/github/wu-sheng/DataCarrier/badge.svg?branch=master&q=2)](https://coveralls.io/github/wu-sheng/DataCarrier?branch=master&q=2)
 [ ![Download](https://api.bintray.com/packages/wu-sheng/DataCarrier/com.a.eye.data-carrier/images/download.svg) ](https://bintray.com/wu-sheng/DataCarrier/com.a.eye.data-carrier/_latestVersion)
 
 ## Why need DataCarrier
