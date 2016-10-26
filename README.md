@@ -8,7 +8,8 @@ DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 ## Why need DataCarrier
 - Publish-Subscribe MQ. Support multi Producers and Consumer.
 - Light and Embed. A mini java lib in jdk1.6.
-- High-throughput. Used in [Sky-Walking APM](https://github.com/wu-sheng/sky-walking),
+- High-throughput. Used in [Sky-Walking APM](https://github.com/wu-sheng/sky-walking).
+- produce data asynchronous.
 - Easy to use. Simple API.
 
 ## How to use
