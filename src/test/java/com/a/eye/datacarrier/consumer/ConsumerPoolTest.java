@@ -30,11 +30,12 @@ public class ConsumerPoolTest {
         ConsumerPool<SampleData> pool = new ConsumerPool<SampleData>(channels, new SampleConsumer(), 2, true);
         pool.begin();
 
+        Thread.sleep(5000);
         pool.close();
-        Thread.sleep(2000);
         ConsumerThread[] threads = (ConsumerThread[]) MemberModifier.field(ConsumerPool.class, "consumerThreads").get(pool);
+
         Assert.assertEquals(2, threads.length);
-        Assert.assertFalse(threads[0].isAlive());
-        Assert.assertFalse(threads[1].isAlive());
+        Assert.assertFalse((Boolean)MemberModifier.field(ConsumerThread.class, "running").get(threads[0]));
+        Assert.assertFalse((Boolean)MemberModifier.field(ConsumerThread.class, "running").get(threads[1]));
     }
 }

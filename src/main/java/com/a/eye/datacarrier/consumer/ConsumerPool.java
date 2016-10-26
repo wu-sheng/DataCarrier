@@ -47,6 +47,7 @@ public class ConsumerPool<T> {
                     for (ConsumerThread consumerThread : consumerThreads) {
                         consumerThread.start();
                     }
+                    running = true;
                 }
             }
         }
@@ -98,7 +99,7 @@ public class ConsumerPool<T> {
 
     public void close() {
         synchronized (lock) {
-            if (!running) {
+            if (running) {
                 synchronized (lock) {
                     for (ConsumerThread consumerThread : consumerThreads) {
                         consumerThread.shutdown();
