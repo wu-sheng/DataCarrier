@@ -6,14 +6,21 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.powermock.api.support.membermodification.MemberModifier;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by wusheng on 2016/10/26.
  */
 public class ConsumerTest {
+    public static LinkedBlockingQueue<SampleData> buffer = new LinkedBlockingQueue<SampleData>();
+
+    public static boolean isOccurError = false;
+
     @Test
-    public void testConsumer() throws IllegalAccessException {
+    public void testConsumerLessThanChannel() throws IllegalAccessException {
         final DataCarrier<SampleData> carrier = new DataCarrier<SampleData>(2, 100);
 
         for (int i = 0; i < 100; i++) {
@@ -29,19 +36,66 @@ public class ConsumerTest {
         consumer2.i = 100;
         carrier.consume(consumer2, 1, true);
         Assert.assertEquals(100, ((SampleConsumer2)getConsumer(carrier)).i);
+
+        carrier.shutdownConsumers();
+    }
+
+    @Test
+    public void testConsumerMoreThanChannel() throws IllegalAccessException, InterruptedException {
+        final DataCarrier<SampleData> carrier = new DataCarrier<SampleData>(2, 100);
+
+        for (int i = 0; i < 200; i++) {
+            Assert.assertTrue(carrier.produce(new SampleData().setName("data" + i)));
+        }
+        SampleConsumer consumer = new SampleConsumer();
+
+        carrier.consume(consumer, 5, true);
+
+        Thread.sleep(2000);
+
+        List<SampleData> result = new ArrayList<SampleData>();
+        buffer.drainTo(result);
+
+        Assert.assertEquals(200, result.size());
+
+
+        HashSet<Integer> consumerCounter = new HashSet<Integer>();
+        for(SampleData data : result){
+            consumerCounter.add(data.getIntValue());
+        }
+        Assert.assertEquals(5, consumerCounter.size());
+    }
+
+    @Test
+    public void testConsumerOnError(){
+        final DataCarrier<SampleData> carrier = new DataCarrier<SampleData>(2, 100);
+
+        for (int i = 0; i < 200; i++) {
+            Assert.assertTrue(carrier.produce(new SampleData().setName("data" + i)));
+        }
+        SampleConsumer2 consumer = new SampleConsumer2();
+
+        consumer.onError = true;
+        carrier.consume(consumer, 5, false);
+
+        Assert.assertTrue(isOccurError);
     }
 
     class SampleConsumer2 implements IConsumer<SampleData> {
         public int i = 1;
 
+        public boolean onError = false;
+
         @Override
         public void consume(List<SampleData> data) {
-
+            if(onError){
+                throw new RuntimeException("consume exception");
+            }
         }
 
         @Override
         public void onError(List<SampleData> data, Throwable t) {
-
+            isOccurError = true;
         }
     }
 

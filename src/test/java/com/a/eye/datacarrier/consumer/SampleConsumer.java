@@ -12,7 +12,10 @@ public class SampleConsumer implements IConsumer<SampleData> {
 
     @Override
     public void consume(List<SampleData> data) {
-
+        for(SampleData one : data) {
+            one.setIntValue(this.hashCode());
+            ConsumerTest.buffer.offer(one);
+        }
     }
 
     @Override

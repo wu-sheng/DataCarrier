@@ -49,7 +49,7 @@ public class DataCarrier<T> {
     }
 
     /**
-     * produce data to buffer, using the givven {@Link BufferStrategy}.
+     * produce data to buffer, using the givven {@link BufferStrategy}.
      *
      * @param data
      * @return
@@ -76,5 +76,17 @@ public class DataCarrier<T> {
         consumerPool = new ConsumerPool<T>(this.channels, prototype, num, usePrototypeCopies);
         consumerPool.begin();
         return this;
+    }
+
+    /**
+     * shutdown all consumer threads, if consumer threads are running.
+     * Notice {@link BufferStrategy}:
+     *      if {@link BufferStrategy} == {@link BufferStrategy#BLOCKING}, shutdown consumers maybe cause blocking when producing.
+     *      Better way to change consumers are use {@link DataCarrier#consume(IConsumer, int, boolean)}
+     */
+    public void shutdownConsumers(){
+        if(consumerPool != null){
+            consumerPool.close();
+        }
     }
 }

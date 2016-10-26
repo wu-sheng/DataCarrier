@@ -4,11 +4,11 @@ package com.a.eye.datacarrier;
  * Created by wusheng on 2016/10/25.
  */
 public class SampleData {
-    private long intValue;
+    private int intValue;
 
     private String name;
 
-    public long getIntValue() {
+    public int getIntValue() {
         return intValue;
     }
 
@@ -16,7 +16,7 @@ public class SampleData {
         return name;
     }
 
-    public SampleData setIntValue(long intValue) {
+    public SampleData setIntValue(int intValue) {
         this.intValue = intValue;
         return this;
     }

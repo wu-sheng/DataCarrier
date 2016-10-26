@@ -62,6 +62,9 @@ public class ConsumerPool<T> {
             ArrayList<Integer>[] threadAllocation = new ArrayList[channelSize];
             for (int threadIndex = 0; threadIndex < consumerThreads.length; threadIndex++) {
                 int index = threadIndex % channelSize;
+                if(threadAllocation[index] == null){
+                    threadAllocation[index] = new ArrayList<Integer>();
+                }
                 threadAllocation[index].add(threadIndex);
             }
 
@@ -73,7 +76,7 @@ public class ConsumerPool<T> {
                 for (int i = 0; i < threadAllocationPerChannel.size(); i++) {
                     int threadIndex = threadAllocationPerChannel.get(i);
                     int start = i * step;
-                    int end = (i + 1) * step;
+                    int end = i == threadAllocationPerChannel.size()-1? bufferSize : (i + 1) * step;
                     consumerThreads[threadIndex].addDataSource(channel, start, end);
                 }
             }
