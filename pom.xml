@@ -83,4 +83,12 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-wu-sheng-DataCarrier</id>
+            <name>wu-sheng-DataCarrier</name>
+            <url>https://api.bintray.com/maven/wu-sheng/DataCarrier/com.a.eye.data-carrier/;publish=1</url>
+        </repository>
+    </distributionManagement>
 </project>
