@@ -16,11 +16,13 @@ public class SampleData {
         return name;
     }
 
-    public void setIntValue(long intValue) {
+    public SampleData setIntValue(long intValue) {
         this.intValue = intValue;
+        return this;
     }
 
-    public void setName(String name) {
+    public SampleData setName(String name) {
         this.name = name;
+        return this;
     }
 }

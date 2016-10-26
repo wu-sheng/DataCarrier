@@ -45,12 +45,23 @@ public class ConsumerThread<T> extends Thread {
         running = true;
 
         while (running) {
+            boolean hasData = false;
             for (DataSource dataSource : dataSources) {
                 List<T> data = dataSource.obtain();
+                if(data.size() == 0){
+                    continue;
+                }
+                hasData = true;
                 try {
                     consumer.consume(data);
                 } catch (Throwable t) {
                     consumer.onError(data, t);
+                }
+            }
+            if(!hasData){
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
                 }
             }
 
