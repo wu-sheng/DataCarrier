@@ -3,6 +3,7 @@ package com.a.eye.datacarrier;
 import com.a.eye.datacarrier.buffer.Buffer;
 import com.a.eye.datacarrier.buffer.BufferStrategy;
 import com.a.eye.datacarrier.buffer.Channels;
+import com.a.eye.datacarrier.consumer.IConsumer;
 import com.a.eye.datacarrier.partition.ProducerThreadPartitioner;
 import com.a.eye.datacarrier.partition.SimpleRollingPartitioner;
 import org.junit.Assert;
@@ -62,7 +63,7 @@ public class DataCarrierTest {
         DataCarrier<SampleData> carrier = new DataCarrier<SampleData>(2, 100);
         carrier.setBufferStrategy(BufferStrategy.OVERRIDE);
 
-        for(int i = 0; i < 500; i++){
+        for (int i = 0; i < 500; i++) {
             Assert.assertTrue(carrier.produce(new SampleData().setName("d" + i)));
         }
 
@@ -80,11 +81,11 @@ public class DataCarrierTest {
         DataCarrier<SampleData> carrier = new DataCarrier<SampleData>(2, 100);
         carrier.setBufferStrategy(BufferStrategy.IF_POSSIBLE);
 
-        for(int i = 0; i < 200; i++){
+        for (int i = 0; i < 200; i++) {
             Assert.assertTrue(carrier.produce(new SampleData().setName("d" + i)));
         }
 
-        for(int i = 0; i < 200; i++){
+        for (int i = 0; i < 200; i++) {
             Assert.assertFalse(carrier.produce(new SampleData().setName("d" + i + "_2")));
         }
 
@@ -95,5 +96,45 @@ public class DataCarrierTest {
         Buffer<SampleData> buffer2 = channels.getBuffer(1);
         List result2 = buffer2.obtain(0, 100);
         Assert.assertEquals(200, result1.size() + result2.size());
+    }
+
+    @Test
+    public void testBlockingProduce() throws IllegalAccessException {
+        final DataCarrier<SampleData> carrier = new DataCarrier<SampleData>(2, 100);
+
+        for (int i = 0; i < 200; i++) {
+            Assert.assertTrue(carrier.produce(new SampleData().setName("d" + i)));
+        }
+
+        long time1 = System.currentTimeMillis();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                IConsumer<SampleData> consumer = new IConsumer<SampleData>() {
+                    int i = 0;
+
+                    @Override
+                    public void consume(List<SampleData> data) {
+
+                    }
+
+                    @Override
+                    public void onError(List<SampleData> data, Throwable t) {
+
+                    }
+                };
+                carrier.consume(consumer, 1, false);
+            }
+        }).start();
+
+        carrier.produce(new SampleData().setName("blocking-data"));
+        long time2 = System.currentTimeMillis();
+
+        Assert.assertTrue(time2 - time1 > 2000);
     }
 }

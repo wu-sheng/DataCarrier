@@ -74,6 +74,7 @@ public class DataCarrier<T> {
             consumerPool.close();
         }
         consumerPool = new ConsumerPool<T>(this.channels, prototype, num, usePrototypeCopies);
+        consumerPool.begin();
         return this;
     }
 }
