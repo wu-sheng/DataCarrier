@@ -12,6 +12,54 @@ DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 - produce data asynchronous.
 - Easy to use. Simple API.
 
+## Download
+- [Download](https://bintray.com/wu-sheng/DataCarrier/com.a.eye.data-carrier/_latestVersion) latest version
+- Use Maven, Gradle, Ivy, SBT, etc. [set JCenter Center Repository](https://bintray.com/bintray/jcenter?filterByPkgName=com.a.eye.data-carrier)
+		-maven
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<settings xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd'
+          xmlns='http://maven.apache.org/SETTINGS/1.0.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+    
+    <profiles>
+        <profile>
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>bintray</name>
+                    <url>http://jcenter.bintray.com</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>bintray-plugins</name>
+                    <url>http://jcenter.bintray.com</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <id>bintray</id>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>bintray</activeProfile>
+    </activeProfiles>
+</settings>
+```
+		- gradle
+```
+repositories {
+    maven {
+        url  "http://jcenter.bintray.com" 
+    }
+}
+```
+
 ## How to use
 - create a new DataCarrier instance
 ```java
