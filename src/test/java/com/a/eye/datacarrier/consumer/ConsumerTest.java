@@ -78,7 +78,7 @@ public class ConsumerTest {
         consumer.onError = true;
         carrier.consume(consumer, 5, false);
 
-        Assert.assertTrue(isOccurError);
+        Assert.assertTrue(isOccurError); 
     }
 
     class SampleConsumer2 implements IConsumer<SampleData> {
