@@ -15,7 +15,6 @@ DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 ## Download
 - [Download](https://bintray.com/wu-sheng/DataCarrier/com.a.eye.data-carrier/_latestVersion) latest version
 - Use Maven, Gradle, Ivy, SBT, etc. [set JCenter Center Repository](https://bintray.com/bintray/jcenter?filterByPkgName=com.a.eye.data-carrier)
-		
 - maven
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -52,7 +51,13 @@ DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
     </activeProfiles>
 </settings>
 ```
-
+```
+<dependency>
+  <groupId>com.a.eye</groupId>
+  <artifactId>data-carrier</artifactId>
+  <version>1.0</version>
+</dependency>
+```
 - gradle
 ```
 repositories {
@@ -61,6 +66,8 @@ repositories {
     }
 }
 ```
+
+
 
 ## How to use
 - create a new DataCarrier instance
