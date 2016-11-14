@@ -53,6 +53,10 @@ public class ConsumerPool<T> {
         }
     }
 
+    public boolean isRunning(){
+        return running;
+    }
+
     private void allocateBuffer2Thread() {
         int channelSize = this.channels.getChannelSize();
         if (channelSize < consumerThreads.length) {
@@ -100,6 +104,7 @@ public class ConsumerPool<T> {
     public void close() {
         try {
             lock.lock();
+            this.running = false;
             for (ConsumerThread consumerThread : consumerThreads) {
                 consumerThread.shutdown();
             }

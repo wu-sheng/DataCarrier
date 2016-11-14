@@ -22,4 +22,9 @@ public class SampleConsumer implements IConsumer<SampleData> {
     public void onError(List<SampleData> data, Throwable t) {
 
     }
+
+    @Override
+    public void onExit() {
+
+    }
 }

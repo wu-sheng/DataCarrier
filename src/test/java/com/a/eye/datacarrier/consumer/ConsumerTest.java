@@ -97,6 +97,11 @@ public class ConsumerTest {
         public void onError(List<SampleData> data, Throwable t) {
             isOccurError = true;
         }
+
+        @Override
+        public void onExit() {
+
+        }
     }
 
     private IConsumer getConsumer(DataCarrier<SampleData> carrier) throws IllegalAccessException {

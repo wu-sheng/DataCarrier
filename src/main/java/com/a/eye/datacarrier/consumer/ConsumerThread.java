@@ -45,27 +45,38 @@ public class ConsumerThread<T> extends Thread {
         running = true;
 
         while (running) {
-            boolean hasData = false;
-            for (DataSource dataSource : dataSources) {
-                List<T> data = dataSource.obtain();
-                if(data.size() == 0){
-                    continue;
-                }
-                hasData = true;
-                try {
-                    consumer.consume(data);
-                } catch (Throwable t) {
-                    consumer.onError(data, t);
-                }
-            }
+            boolean hasData = consume();
+
             if(!hasData){
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                 }
             }
-
         }
+
+        // consumer thread is going to stop
+        // consume the last time
+        consume();
+
+        consumer.onExit();
+    }
+
+    private boolean consume(){
+        boolean hasData = false;
+        for (DataSource dataSource : dataSources) {
+            List<T> data = dataSource.obtain();
+            if(data.size() == 0){
+                continue;
+            }
+            hasData = true;
+            try {
+                consumer.consume(data);
+            } catch (Throwable t) {
+                consumer.onError(data, t);
+            }
+        }
+        return hasData;
     }
 
     void shutdown() {

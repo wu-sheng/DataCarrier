@@ -9,4 +9,6 @@ public interface IConsumer<T> {
     void consume(List<T> data);
 
     void onError(List<T> data, Throwable t);
+
+    void onExit();
 }

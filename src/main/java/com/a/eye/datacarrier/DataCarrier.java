@@ -14,10 +14,10 @@ import com.a.eye.datacarrier.partition.SimpleRollingPartitioner;
  * Created by wusheng on 2016/10/25.
  */
 public class DataCarrier<T> {
-    private final int             bufferSize;
-    private final int             channelSize;
-    private       Channels<T>     channels;
-    private       ConsumerPool<T> consumerPool;
+    private final    int             bufferSize;
+    private final    int             channelSize;
+    private          Channels<T>     channels;
+    private          ConsumerPool<T> consumerPool;
 
     public DataCarrier(int channelSize, int bufferSize) {
         this.bufferSize = bufferSize;
@@ -52,12 +52,15 @@ public class DataCarrier<T> {
      * produce data to buffer, using the givven {@link BufferStrategy}.
      *
      * @param data
-     * @return
+     * @return false means produce data failure. The data will not be consumed.
      */
     public boolean produce(T data) {
         if (consumerPool != null) {
-            consumerPool.begin();
+            if(!consumerPool.isRunning()){
+                return false;
+            }
         }
+
         return this.channels.save(data);
     }
 
@@ -81,11 +84,11 @@ public class DataCarrier<T> {
     /**
      * shutdown all consumer threads, if consumer threads are running.
      * Notice {@link BufferStrategy}:
-     *      if {@link BufferStrategy} == {@link BufferStrategy#BLOCKING}, shutdown consumers maybe cause blocking when producing.
-     *      Better way to change consumers are use {@link DataCarrier#consume(IConsumer, int, boolean)}
+     * if {@link BufferStrategy} == {@link BufferStrategy#BLOCKING}, shutdown consumers maybe cause blocking when producing.
+     * Better way to change consumers are use {@link DataCarrier#consume(IConsumer, int, boolean)}
      */
-    public void shutdownConsumers(){
-        if(consumerPool != null){
+    public void shutdownConsumers() {
+        if (consumerPool != null) {
             consumerPool.close();
         }
     }

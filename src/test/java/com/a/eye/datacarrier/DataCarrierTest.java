@@ -127,6 +127,11 @@ public class DataCarrierTest {
                     public void onError(List<SampleData> data, Throwable t) {
 
                     }
+
+                    @Override
+                    public void onExit() {
+
+                    }
                 };
                 carrier.consume(consumer, 1, false);
             }
