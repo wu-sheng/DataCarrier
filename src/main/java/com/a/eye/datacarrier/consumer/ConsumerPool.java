@@ -17,23 +17,38 @@ public class ConsumerPool<T> {
     private Channels<T>      channels;
     private ReentrantLock    lock;
 
-    public ConsumerPool(Channels<T> channels, IConsumer<T> prototype, int num, boolean usePrototypeCopies) {
+    public ConsumerPool(Channels<T> channels, Class<? extends IConsumer<T>> consumerClass, int num) {
+        this(channels, num);
+        for (int i = 0; i < num; i++) {
+            consumerThreads[i] = new ConsumerThread("DataCarrier.Consumser." + i + ".Thread", getNewConsumerInstance(consumerClass));
+        }
+    }
+
+    public ConsumerPool(Channels<T> channels, IConsumer<T> prototype, int num) {
+        this(channels, num);
+        prototype.init();
+        for (int i = 0; i < num; i++) {
+            consumerThreads[i] = new ConsumerThread("DataCarrier.Consumser." + i + ".Thread", prototype);
+        }
+
+    }
+
+    private ConsumerPool(Channels<T> channels, int num){
         running = false;
         this.channels = channels;
         consumerThreads = new ConsumerThread[num];
-        for (int i = 0; i < num; i++) {
-            consumerThreads[i] = new ConsumerThread("DataCarrier.Consumser." + i + ".Thread", usePrototypeCopies ? getNewConsumerInstance(prototype) : prototype);
-        }
         lock = new ReentrantLock();
     }
 
-    private IConsumer<T> getNewConsumerInstance(IConsumer<T> prototype) {
+    private IConsumer<T> getNewConsumerInstance(Class<? extends IConsumer<T>> consumerClass) {
         try {
-            return prototype.getClass().newInstance();
+            IConsumer<T> inst = consumerClass.newInstance();
+            inst.init();
+            return inst;
         } catch (InstantiationException e) {
-            return prototype;
+            throw new ConsumerCannotBeCreatedException(e);
         } catch (IllegalAccessException e) {
-            return prototype;
+            throw new ConsumerCannotBeCreatedException(e);
         }
     }
 

@@ -11,6 +11,11 @@ public class SampleConsumer implements IConsumer<SampleData> {
     public int i = 1;
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public void consume(List<SampleData> data) {
         for(SampleData one : data) {
             one.setIntValue(this.hashCode());

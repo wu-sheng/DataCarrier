@@ -29,12 +29,12 @@ public class ConsumerTest {
         SampleConsumer consumer = new SampleConsumer();
 
         consumer.i = 100;
-        carrier.consume(consumer, 1, true);
+        carrier.consume(SampleConsumer.class, 1);
         Assert.assertEquals(1, ((SampleConsumer)getConsumer(carrier)).i);
 
         SampleConsumer2 consumer2 = new SampleConsumer2();
         consumer2.i = 100;
-        carrier.consume(consumer2, 1, true);
+        carrier.consume(consumer2, 1);
         Assert.assertEquals(100, ((SampleConsumer2)getConsumer(carrier)).i);
 
         carrier.shutdownConsumers();
@@ -49,7 +49,7 @@ public class ConsumerTest {
         }
         SampleConsumer consumer = new SampleConsumer();
 
-        carrier.consume(consumer, 5, true);
+        carrier.consume(SampleConsumer.class, 5);
 
         Thread.sleep(2000);
 
@@ -76,7 +76,7 @@ public class ConsumerTest {
         SampleConsumer2 consumer = new SampleConsumer2();
 
         consumer.onError = true;
-        carrier.consume(consumer, 5, false);
+        carrier.consume(consumer, 5);
 
         Assert.assertTrue(isOccurError); 
     }
@@ -85,6 +85,11 @@ public class ConsumerTest {
         public int i = 1;
 
         public boolean onError = false;
+
+        @Override
+        public void init() {
+
+        }
 
         @Override
         public void consume(List<SampleData> data) {

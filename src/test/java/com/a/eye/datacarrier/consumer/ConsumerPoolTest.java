@@ -15,7 +15,7 @@ public class ConsumerPoolTest {
     @Test
     public void testBeginConsumerPool() throws IllegalAccessException {
         Channels<SampleData> channels = new Channels<SampleData>(2, 100, new SimpleRollingPartitioner<SampleData>(), BufferStrategy.BLOCKING);
-        ConsumerPool<SampleData> pool = new ConsumerPool<SampleData>(channels, new SampleConsumer(), 2, true);
+        ConsumerPool<SampleData> pool = new ConsumerPool<SampleData>(channels, new SampleConsumer(), 2);
         pool.begin();
 
         ConsumerThread[] threads = (ConsumerThread[]) MemberModifier.field(ConsumerPool.class, "consumerThreads").get(pool);
@@ -27,7 +27,7 @@ public class ConsumerPoolTest {
     @Test
     public void testCloseConsumerPool() throws InterruptedException, IllegalAccessException {
         Channels<SampleData> channels = new Channels<SampleData>(2, 100, new SimpleRollingPartitioner<SampleData>(), BufferStrategy.BLOCKING);
-        ConsumerPool<SampleData> pool = new ConsumerPool<SampleData>(channels, new SampleConsumer(), 2, true);
+        ConsumerPool<SampleData> pool = new ConsumerPool<SampleData>(channels, new SampleConsumer(), 2);
         pool.begin();
 
         Thread.sleep(5000);

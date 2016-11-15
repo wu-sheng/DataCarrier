@@ -119,6 +119,11 @@ public class DataCarrierTest {
                     int i = 0;
 
                     @Override
+                    public void init() {
+
+                    }
+
+                    @Override
                     public void consume(List<SampleData> data) {
 
                     }
@@ -133,7 +138,7 @@ public class DataCarrierTest {
 
                     }
                 };
-                carrier.consume(consumer, 1, false);
+                carrier.consume(consumer, 1);
             }
         }).start();
 

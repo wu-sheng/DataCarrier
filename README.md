@@ -100,23 +100,39 @@ carrier.setPartitioner(new ProducerThreadPartitioner<SampleData>());
 ```
 ref to [partitioner implements](src/main/java/com/a/eye/datacarrier/partition)
 
-- set consumer and waiting to consume data
+- set consumer and start to consume data
 ```java
-/**
-   * set consumers to this Carrier.
-   * consumer begin to run when {@link DataCarrier<T>#produce(T)} begin to work.
-   *
-   * @param prototype
-   * @param num                number of consumers, which consumer will run as a independent thread
-   * @param usePrototypeCopies use new instance of prototype for consumer, it will work only when prototype class have default constructor
-   */
-carrier.consume(consumer, 5, true);
+    /**
+     * set consumers to this Carrier.
+     * consumer begin to run when {@link DataCarrier<T>#produce(T)} begin to work.
+     *
+     * @param consumerClass class of consumer
+     * @param num           number of consumer threads
+     */
+    carrier.consume(SampleConsumer.class, 10);
+
+or
+
+    /**
+     * set consumers to this Carrier.
+     * consumer begin to run when {@link DataCarrier<T>#produce(T)} begin to work.
+     *
+     * @param consumer single instance of consumer, all consumer threads will all use this instance.
+     * @param num      number of consumer threads
+     * @return
+     */
+    carrier.consume(consumer, 10);
 ```
 
 - create a consumer (sample)
 ```java
 public class SampleConsumer implements IConsumer<SampleData> {
     public int i = 1;
+
+    @Override
+    public void init() {
+
+    }
 
     @Override
     public void consume(List<SampleData> data) {
