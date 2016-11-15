@@ -102,7 +102,7 @@ public class DataCarrier<T> {
      * shutdown all consumer threads, if consumer threads are running.
      * Notice {@link BufferStrategy}:
      * if {@link BufferStrategy} == {@link BufferStrategy#BLOCKING}, shutdown consumers maybe cause blocking when producing.
-     * Better way to change consumers are use {@link DataCarrier#consume(IConsumer, int, boolean)}
+     * Better way to change consumers are use {@link DataCarrier#consume}
      */
     public void shutdownConsumers() {
         if (consumerPool != null) {
