@@ -6,11 +6,12 @@ DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 [ ![Download](https://api.bintray.com/packages/wu-sheng/DataCarrier/com.a.eye.data-carrier/images/download.svg) ](https://bintray.com/wu-sheng/DataCarrier/com.a.eye.data-carrier/_latestVersion)
 
 ## Why need DataCarrier
-- Publish-Subscribe MQ. Support multi Producers and Consumer.
-- Light and Embed. A mini java lib in jdk1.6.
+- Publish-Subscribe In-Memory MQ. Support multi Producers and Consumer.
+- Light and Embed. A mini java lib, less than 20k, no other dependences.
 - High-throughput. Used in [Sky-Walking APM](https://github.com/wu-sheng/sky-walking).
-- produce data asynchronous.
-- Easy to use. Simple API.
+- **No lock mechanism**.
+- Easy to use. Simple API
+- Only need jdk1.6
 
 ## Download
 - [Download](https://bintray.com/wu-sheng/DataCarrier/com.a.eye.data-carrier/_latestVersion) latest version
