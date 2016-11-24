@@ -30,9 +30,8 @@ public class Buffer<T> {
                 case BLOCKING:
                     while (buffer[i] != null) {
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(1L);
                         } catch (InterruptedException e) {
-                            // do nothing but blocking
                         }
                     }
                     break;
