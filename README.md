@@ -1,5 +1,7 @@
-# DataCarrier
+# ~~DataCarrier~~
 DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
+
+**Not Updated**, [Sky-Walking APM](https://github.com/wu-sheng/sky-walking) uses [disruptor](https://github.com/LMAX-Exchange/disruptor) stead of this.
 
 [![Build Status](https://travis-ci.org/wu-sheng/DataCarrier.svg?branch=master)](https://travis-ci.org/wu-sheng/DataCarrier)
 [![Coverage Status](https://coveralls.io/repos/github/wu-sheng/DataCarrier/badge.svg?branch=master&q=2)](https://coveralls.io/github/wu-sheng/DataCarrier?branch=master&q=3)
