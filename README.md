@@ -10,7 +10,6 @@ DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 - Publish-Subscribe In-Memory MQ. Support multi Producers and Consumer.
 - Light and Embed. A mini java lib, less than 20k, no other dependences.
 - High-throughput. Used in [Sky-Walking APM](https://github.com/wu-sheng/sky-walking).
-- **No lock mechanism**.
 - Easy to use. Simple API
 - Only need jdk1.6
 
@@ -57,18 +56,9 @@ DataCarrier is a light, embed, high-throughput, publish-subscribe MQ.
 <dependency>
   <groupId>com.a.eye</groupId>
   <artifactId>data-carrier</artifactId>
-  <version>1.0</version>
+  <version>x.x</version>
 </dependency>
 ```
-- gradle
-```
-repositories {
-    maven {
-        url  "http://jcenter.bintray.com" 
-    }
-}
-```
-
 
 
 ## How to use
